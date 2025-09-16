@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Publish Content - AYUSHLINK ICD</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto+Slab:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Inter', sans-serif; background:#e0f0f3; color:#264c55; }
+
+    .topbar { display:flex; justify-content:space-between; align-items:center; padding:16px 28px; background:#d5e3e8; position:sticky; top:0; z-index:100; box-shadow:0 4px 12px rgba(0,0,0,0.08);}    
+    .brand { display:flex; align-items:center; gap:10px; font-weight:800; font-size:20px; font-family:'Roboto Slab', serif; }
+    .brand img { width:40px; height:40px; border-radius:50%; }
+    .top-links { display:flex; gap:12px; align-items:center; }
+    .cta-btn { background:#3e7887; color:#fff; border:none; border-radius:10px; padding:10px 16px; text-decoration:none; font-weight:700; }
+
+    .hero { padding:40px 24px; text-align:center; }
+    .hero h1 { font-family:'Roboto Slab', serif; font-size:36px; margin-bottom:8px; }
+    .hero p { color:#3e7887; }
+
+    .container { max-width:1100px; margin:0 auto; padding: 0 24px 48px 24px; }
+
+    .tabs { display:flex; gap:10px; justify-content:center; margin-bottom:24px; flex-wrap:wrap; }
+    .tab { padding:10px 16px; border-radius:10px; background:#f0f7f9; color:#264c55; font-weight:700; cursor:pointer; border:1px solid #d5e3e8; }
+    .tab.active { background:#3e7887; color:#fff; border-color:#3e7887; }
+
+    .panel { display:none; }
+    .panel.active { display:block; }
+
+    .upload-card { background:#fff; border-radius:16px; box-shadow:0 8px 24px rgba(0,0,0,0.08); padding:24px; margin-bottom:20px; }
+    .upload-title { font-weight:800; margin-bottom:12px; }
+    .muted { color:#3e7887; font-size:14px; margin-bottom:16px; }
+
+    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap:16px; }
+
+    .input-group { display:flex; flex-direction:column; gap:6px; }
+    .input-group label { font-weight:700; font-size:14px; }
+    .input-group input, .input-group textarea, .input-group select { padding:12px; border-radius:10px; border:1px solid #d9e6ea; font-size:14px; outline:none; }
+    .input-group textarea { min-height:120px; resize:vertical; }
+    .input-group input[type="file"] { padding:10px; }
+
+    .btn-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+    .btn-primary { background:#3e7887; color:#fff; border:none; border-radius:10px; padding:12px 16px; font-weight:800; cursor:pointer; }
+    .btn-secondary { background:#fff; color:#264c55; border:1px solid #d5e3e8; border-radius:10px; padding:12px 16px; font-weight:800; cursor:pointer; }
+
+    .help { background:#f0f7f9; border:1px dashed #cfe0e6; padding:16px; border-radius:12px; color:#3e7887; font-size:14px; }
+
+    footer { background:#d5e3e8; padding:40px 24px; text-align:center; }
+
+    @media (max-width:768px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">
+      <img src="assets/logo.png" alt="logo" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">
+      AYUSHLINK ICD
+    </div>
+    <div class="top-links">
+      <a class="cta-btn" href="doc_dashboard.html">← Back to Dashboard</a>
+      <a class="cta-btn" href="index.html" style="background:#264c55">Home</a>
+    </div>
+  </div>
+
+  <div class="hero">
+    <h1>Publish Center</h1>
+    <p>Upload and share your reports, documentaries, and medical news with the community</p>
+  </div>
+
+  <div class="container">
+    <div class="tabs">
+      <button class="tab active" onclick="showPanel('reports')">Reports / Case Studies</button>
+      <button class="tab" onclick="showPanel('documentaries')">Documentaries</button>
+      <button class="tab" onclick="showPanel('news')">Medical News</button>
+    </div>
+
+    <!-- Reports Panel -->
+    <div id="reports" class="panel active">
+      <div class="upload-card">
+        <div class="upload-title">Publish Report / Case Study</div>
+        <div class="muted">Supported: PDF, DOCX, Images. Max 50MB per file.</div>
+        <div class="grid">
+          <div class="input-group">
+            <label>Title</label>
+            <input type="text" placeholder="e.g., Diabetes Management with NAMASTE-ICD mapping">
+          </div>
+          <div class="input-group">
+            <label>Specialization</label>
+            <select>
+              <option>General Medicine</option>
+              <option>Cardiology</option>
+              <option>Endocrinology</option>
+              <option>Ayurveda</option>
+              <option>Pediatrics</option>
+              <option>Psychiatry</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label>Tags</label>
+            <input type="text" placeholder="e.g., NAMASTE, ICD11, Diabetes, CaseStudy">
+          </div>
+          <div class="input-group">
+            <label>Attach Files</label>
+            <input type="file" multiple accept=".pdf,.doc,.docx,image/*">
+          </div>
+          <div class="input-group" style="grid-column: 1 / -1;">
+            <label>Abstract / Description</label>
+            <textarea placeholder="Brief overview of your report...\nInclude important findings, methodology, and conclusions."></textarea>
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="btn-primary" onclick="fakeSubmit('Report submitted for review')">Publish</button>
+          <button class="btn-secondary" onclick="fakeSaveDraft()">Save Draft</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Documentaries Panel -->
+    <div id="documentaries" class="panel">
+      <div class="upload-card">
+        <div class="upload-title">Upload Documentary / Video</div>
+        <div class="muted">Supported: MP4, MOV. Max 500MB. Provide thumbnail and description.</div>
+        <div class="grid">
+          <div class="input-group">
+            <label>Title</label>
+            <input type="text" placeholder="e.g., Panchakarma in Chronic Pain Management">
+          </div>
+          <div class="input-group">
+            <label>Thumbnail</label>
+            <input type="file" accept="image/*">
+          </div>
+          <div class="input-group">
+            <label>Video File</label>
+            <input type="file" accept="video/mp4,video/quicktime">
+          </div>
+          <div class="input-group" style="grid-column: 1 / -1;">
+            <label>Description</label>
+            <textarea placeholder="Describe your documentary focus, cases covered, and outcomes."></textarea>
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="btn-primary" onclick="fakeSubmit('Documentary submitted for review')">Publish</button>
+          <button class="btn-secondary" onclick="fakeSaveDraft()">Save Draft</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- News Panel -->
+    <div id="news" class="panel">
+      <div class="upload-card">
+        <div class="upload-title">Post Medical News</div>
+        <div class="muted">Share relevant updates for the AYUSHLINK community.</div>
+        <div class="grid">
+          <div class="input-group">
+            <label>Headline</label>
+            <input type="text" placeholder="e.g., WHO endorses Traditional Medicine integration">
+          </div>
+          <div class="input-group">
+            <label>Source URL (optional)</label>
+            <input type="url" placeholder="https://...">
+          </div>
+          <div class="input-group" style="grid-column: 1 / -1;">
+            <label>Summary</label>
+            <textarea placeholder="Write a concise summary..."></textarea>
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="btn-primary" onclick="fakeSubmit('News posted for moderation')">Publish</button>
+          <button class="btn-secondary" onclick="fakeSaveDraft()">Save Draft</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="help">
+      Note: Submissions go through moderation to ensure quality and compliance.
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 AYUSHLINK ICD. All rights reserved.
+  </footer>
+
+  <script>
+    function showPanel(id) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      event.target.classList.add('active');
+      document.getElementById(id).classList.add('active');
+    }
+
+    function fakeSubmit(message){
+      alert(message + "\n(Prototype - integrate with backend/API)");
+    }
+
+    function fakeSaveDraft(){
+      alert('Draft saved locally (prototype).');
+    }
+  </script>
+</body>
+</html>

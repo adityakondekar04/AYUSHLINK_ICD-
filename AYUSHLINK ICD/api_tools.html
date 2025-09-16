@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Tools - AyushLink</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo">
+      <img src="assets/logo.png" alt="logo" style="width:40px;height:40px;border-radius:50%;object-fit:cover;"><br>
+      AYUSHLINK
+    </div>
+    <div class="nav">
+      <a href="doc_dashboard.html"><i>🏠</i> Dashboard</a>
+      <a href="api_tools.html" class="active"><i>🛠</i> API Tools</a>
+      <a href="publish.html"><i>✍️</i> Publish</a>
+      <a href="research_trends.html"><i>📈📊</i>Research and Trends</a>
+      <a href="reports.html"><i>🩺</i> Reports & Analytics</a>
+      <a href="patient_history.html"><i>📂</i> Patient History</a>
+      <a href="settings.html"><i>⚙️</i> Settings</a>
+      <a href="#"><i>↩️</i> Logout</a>
+    </div>
+    <div class="footer">2025 © All Rights Reserved.</div>
+  </div>
+
+  <div class="main">
+    <div class="profile">
+      <img src="https://via.placeholder.com/40" alt="profile"> Dr. Lucky
+    </div>
+
+    <a href="javascript:history.back()" style="position:absolute;left:24px;top:24px;text-decoration:none;color:#2e616d;font-weight:600">← Back</a>
+
+    <div id="headerCard" class="card" style="width:100%;max-width:980px;margin-top:64px;align-items:flex-start;gap:12px">
+      <div class="meta">
+        <div id="diseaseTitle" class="title">Disease</div>
+        <div><strong>NAMASTE ID</strong>: <span id="namasteId">-</span> &nbsp;&nbsp; <strong>ICD_11 ID</strong>: <span id="icdId">-</span></div>
+      </div>
+      <form onsubmit="return localSearch(event)" style="display:flex;align-items:center">
+        <select id="mode" class="search-select" onchange="syncPrefix()">
+          <option value="name">Name</option>
+          <option value="namaste">NAMASTE</option>
+          <option value="icd">IC 11</option>
+        </select>
+        <span id="prefix" class="search-prefix">NAME</span>
+        <input id="q" type="text" placeholder="Find another condition" style="border:none;outline:none;background:transparent;font-size:14px">
+        <button class="explore-btn" type="submit">Search</button>
+      </form>
+    </div>
+
+    <div style="display:flex;gap:24px;flex-wrap:wrap;max-width:980px;width:100%;margin-top:18px">
+      <div class="card" style="flex:1 1 420px;align-items:flex-start">
+        <div class="meta" style="width:100%">
+          <div class="title" style="background:#3e7887;color:#fff;display:inline-block;padding:6px 12px;border-radius:16px;font-size:16px">Observation & Condition</div>
+          <div id="obsText" style="margin-top:12px;line-height:1.6">
+            <!-- Filled via script to mirror screenshot copy -->
+          </div>
+        </div>
+      </div>
+      <div class="card" style="flex:1 1 420px;align-items:flex-start">
+        <div class="meta" style="width:100%">
+          <div class="title" style="background:#3e7887;color:#fff;display:inline-block;padding:6px 12px;border-radius:16px;font-size:16px">Medications</div>
+          <div id="medText" style="margin-top:12px;line-height:1.6"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function getQuery() {
+      const p = new URLSearchParams(location.search);
+      return { name: p.get('name') ? decodeURIComponent(p.get('name')) : '', namaste: p.get('namaste') || '', icd: p.get('icd') || '' };
+    }
+
+    const content = {
+      'Hypertension (High blood pressure)': {
+        obs: 'Hypertension is a condition of persistently high blood pressure that requires monitoring of cardiovascular health and lifestyle factors. Observations include blood pressure levels, heart rate, BMI, and habits such as diet, exercise, smoking, and alcohol use, along with symptoms like headache, dizziness, chest pain, or breathlessness. It may be primary or secondary, progress from pre-hypertension to hypertensive crisis, and raises the risk of stroke, heart disease, kidney damage, and retinopathy.\n\nObservations: BP, heart rate, BMI, lifestyle, symptoms\n\nConditions: Primary/Secondary, pre-hypertension, crisis, risks: stroke, heart, kidney, retina',
+        med: 'Treatment commonly involves medications that lower blood pressure and reduce strain on the heart and blood vessels. The main drug classes include diuretics to remove excess fluid, ACE inhibitors and ARBs to relax and protect blood vessels, calcium channel blockers to improve blood flow, and beta-blockers to slow the heart rate. In specific cases, alpha-blockers may also be prescribed.\n\nMedications: Diuretics, ACE inhibitors, ARBs, calcium channel blockers, beta-blockers, alpha-blockers'
+      },
+      'HIV/AIDS': {
+        obs: 'HIV/AIDS affects the immune system by targeting CD4 T cells, leading to increased susceptibility to opportunistic infections. Observations include CD4 count, viral load, weight, fever, lymphadenopathy, and opportunistic infections.\n\nObservations: CD4, viral load, symptoms, weight\n\nConditions: Opportunistic infections risk, ART adherence',
+        med: 'Antiretroviral therapy (ART) combines medications to suppress viral replication, restore immune function, and reduce transmission. Regimens typically include two NRTIs with an integrase inhibitor or NNRTI.\n\nMedications: Tenofovir, Emtricitabine, Dolutegravir, Efavirenz, Lamivudine'
+      },
+      'Hepatitis (Viral Hepatitis)': {
+        obs: 'Viral hepatitis causes liver inflammation due to infection with hepatitis viruses (A, B, C, D, E). Observations include liver enzymes (ALT, AST), bilirubin, jaundice, fatigue, abdominal pain, risk factors, and imaging findings.\n\nObservations: LFTs, symptoms, imaging\n\nConditions: Acute vs chronic, cirrhosis risk, hepatic failure risk',
+        med: 'Treatment varies by type: antivirals for hepatitis B and C, supportive care for A and E, and prevention via vaccination.\n\nMedications: Tenofovir, Entecavir, Sofosbuvir, Ledipasvir, Ribavirin'
+      }
+    };
+
+    const params = getQuery();
+    document.getElementById('diseaseTitle').textContent = params.name || 'Condition Details';
+    document.getElementById('namasteId').textContent = params.namaste || '-';
+    document.getElementById('icdId').textContent = params.icd || '-';
+
+    const entry = content[params.name];
+    document.getElementById('obsText').textContent = entry ? entry.obs : 'No observation content available.';
+    document.getElementById('medText').textContent = entry ? entry.med : 'No medication content available.';
+
+    function syncPrefix(){
+      const m = document.getElementById('mode').value;
+      const p = document.getElementById('prefix');
+      if (m === 'namaste') p.textContent = 'NAM';
+      else if (m === 'icd') p.textContent = 'ICD 11';
+      else p.textContent = 'NAME';
+    }
+
+    function localSearch(e){
+      e.preventDefault();
+      const m = document.getElementById('mode').value;
+      const v = document.getElementById('q').value.trim().toLowerCase();
+      let found = null;
+      const data = Object.keys(content).map(k=>({ name:k }));
+      if (!v) return false;
+      if (m==='name') found = data.find(d=>d.name.toLowerCase().includes(v));
+      // for demo: support basic namaste/icd lookups using the three sample conditions
+      if (!found && m==='namaste') {
+        if (v.includes('001')) found = { name:'Hypertension (High blood pressure)' };
+        else if (v.includes('005')) found = { name:'HIV/AIDS' };
+        else if (v.includes('021')) found = { name:'Hepatitis (Viral Hepatitis)' };
+      }
+      if (!found && m==='icd') {
+        if (v.includes('052')) found = { name:'Hypertension (High blood pressure)' };
+        else if (v.includes('031')) found = { name:'HIV/AIDS' };
+        else if (v.includes('042')) found = { name:'Hepatitis (Viral Hepatitis)' };
+      }
+      if (found) {
+        const map = {
+          'Hypertension (High blood pressure)': { namaste:'NAM-A-001', icd:'ICD11-052' },
+          'HIV/AIDS': { namaste:'NAM-A-005', icd:'ICD11-031' },
+          'Hepatitis (Viral Hepatitis)': { namaste:'NAM-A-021', icd:'ICD11-042' }
+        };
+        const meta = map[found.name];
+        const url = `api_tools.html?name=${encodeURIComponent(found.name)}&namaste=${encodeURIComponent(meta.namaste)}&icd=${encodeURIComponent(meta.icd)}`;
+        window.location.href = url;
+      }
+      return false;
+    }
+
+    syncPrefix();
+  </script>
+</body>
+</html>
+
+

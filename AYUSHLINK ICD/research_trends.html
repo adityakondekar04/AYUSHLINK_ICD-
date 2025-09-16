@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Research & Trends - AYUSHLINK ICD</title>
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto+Slab:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Inter', sans-serif; background:#e0f0f3; color:#264c55; line-height:1.6; }
+
+    /* Topbar */
+    .topbar { display:flex; justify-content:space-between; align-items:center; padding:16px 40px; background:#d5e3e8; position:sticky; top:0; z-index:100; box-shadow:0 4px 12px rgba(0,0,0,0.08);}
+    .brand { display:flex; align-items:center; gap:12px; font-weight:700; font-size:22px; font-family:'Roboto Slab', serif; }
+    .brand img { width:46px; height:46px; border-radius:50%; }
+    .top-links { display:flex; gap:16px; align-items:center; }
+    .link-btn { color:#264c55; text-decoration:none; font-weight:600; padding:8px 12px; border-radius:6px; transition:0.2s; }
+    .link-btn:hover { background:#eaf3f6; }
+    .cta-btn { padding:14px 26px; border-radius:12px; text-decoration:none; color:#fff; background:#3e7887; transition:0.3s; font-weight:700; font-size:16px; }
+    .cta-btn:hover { opacity:0.85; }
+
+    /* Hero Section */
+    .hero { padding:80px 40px; text-align:center; background:linear-gradient(135deg, #d5e3e8 0%, #e0f0f3 100%); }
+    .hero h1 { font-family:'Roboto Slab', serif; font-size:48px; margin-bottom:16px; color:#264c55; }
+    .hero p { font-size:20px; color:#264c55cc; max-width:600px; margin:0 auto; }
+
+    /* Sections */
+    .section { padding:72px 40px; max-width:1280px; margin:0 auto; }
+    .center { text-align:center; }
+    .grid { display:grid; gap:32px; }
+    .cols-2 { grid-template-columns: repeat(auto-fit, minmax(400px,1fr)); }
+    .cols-3 { grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); }
+
+    /* Tabs */
+    .tab-container { margin-bottom:40px; }
+    .tab-buttons { display:flex; justify-content:center; gap:8px; margin-bottom:40px; }
+    .tab-btn { padding:12px 24px; border:none; background:#f0f7f9; color:#264c55; border-radius:8px; cursor:pointer; font-weight:600; transition:0.3s; }
+    .tab-btn.active { background:#3e7887; color:#fff; }
+    .tab-btn:hover:not(.active) { background:#d5e3e8; }
+    .tab-content { display:none; }
+    .tab-content.active { display:block; }
+
+    /* Cards */
+    .trend-card, .research-card { background:#f0f7f9; padding:32px; border-radius:20px; box-shadow:0 16px 32px rgba(0,0,0,0.08); transition:0.4s; margin-bottom:24px; }
+    .trend-card:hover, .research-card:hover { transform:translateY(-6px); box-shadow:0 20px 40px rgba(0,0,0,0.12); }
+    
+    .trend-card .title, .research-card .title { font-weight:700; font-size:22px; margin-bottom:12px; color:#264c55; }
+    .trend-card .meta, .research-card .meta { color:#3e7887; font-size:14px; margin-bottom:12px; font-weight:600; }
+    .trend-card .content, .research-card .content { color:#264c55; font-size:16px; line-height:1.6; margin-bottom:16px; }
+    .trend-card .stats, .research-card .author { color:#3e7887; font-size:14px; font-weight:600; }
+
+    /* News Grid */
+    .news-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(350px,1fr)); gap:24px; }
+    .news-item { background:#fff; padding:24px; border-radius:16px; box-shadow:0 8px 24px rgba(0,0,0,0.06); border-left:4px solid #3e7887; }
+    .news-item h3 { color:#264c55; margin-bottom:8px; font-size:18px; }
+    .news-item .date { color:#3e7887; font-size:14px; margin-bottom:12px; }
+    .news-item p { color:#264c55cc; font-size:15px; line-height:1.5; }
+
+    /* Research Documentaries */
+    .research-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(400px,1fr)); gap:32px; }
+    .research-item { background:#fff; padding:32px; border-radius:20px; box-shadow:0 12px 28px rgba(0,0,0,0.08); }
+    .research-item .video-placeholder { width:100%; height:200px; background:#d5e3e8; border-radius:12px; display:flex; align-items:center; justify-content:center; color:#264c55; font-weight:600; margin-bottom:20px; }
+    .research-item h3 { color:#264c55; margin-bottom:8px; font-size:20px; }
+    .research-item .doctor { color:#3e7887; font-size:14px; margin-bottom:12px; font-weight:600; }
+    .research-item .description { color:#264c55cc; font-size:15px; line-height:1.6; margin-bottom:16px; }
+    .research-item .tags { display:flex; gap:8px; flex-wrap:wrap; }
+    .tag { background:#e0f0f3; color:#264c55; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:600; }
+
+    /* Footer */
+    footer { background:#d5e3e8; padding:56px 40px; text-align:center; color:#264c55; font-weight:500; font-size:15px; }
+
+    /* Navigation Buttons */
+    .nav-buttons { display:flex; gap:12px; margin-bottom:20px; flex-wrap:wrap; }
+    .back-btn { display:inline-flex; align-items:center; gap:8px; color:#264c55; text-decoration:none; font-weight:600; padding:8px 16px; border-radius:8px; background:#f0f7f9; transition:0.3s; border:1px solid #d5e3e8; }
+    .back-btn:hover { background:#d5e3e8; transform:translateX(-2px); }
+    .publish-btn { display:inline-flex; align-items:center; gap:8px; color:#fff; text-decoration:none; font-weight:600; padding:8px 16px; border-radius:8px; background:#3e7887; transition:0.3s; border:1px solid #3e7887; }
+    .publish-btn:hover { background:#264c55; transform:translateY(-2px); }
+
+    /* Responsive */
+    @media(max-width:768px){
+      .hero h1 { font-size:36px; }
+      .hero p { font-size:18px; }
+      .tab-buttons { flex-direction:column; align-items:center; }
+      .cols-2, .cols-3 { grid-template-columns:1fr; }
+      .news-grid, .research-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="brand">
+      <img src="assets/logo.png" alt="logo" style="width:40px;height:40px;border-radius:50%;object-fit:cover;">
+      AYUSHLINK ICD
+    </div>
+    <div class="top-links">
+      <a class="link-btn" href="index.html#features">Features</a>
+      <a class="link-btn" href="index.html#testimonials">Testimonials</a>
+      <a class="link-btn" href="index.html#contact">Contact</a>
+      <a class="cta-btn" href="signin.html">Sign In</a>
+      <a class="cta-btn" href="signup.html" style="background:#264c55">Sign Up</a>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="nav-buttons">
+      <a href="index.html" class="back-btn">
+        ← Back to Home
+      </a>
+      <a href="signin.html" class="publish-btn">
+        📝 Publish Content
+      </a>
+    </div>
+    <h1>Research & Trends</h1>
+    <p>Stay updated with the latest medical research, trends, and insights in NAMASTE and ICD-11 integration</p>
+  </section>
+
+  <section class="section">
+    <div class="tab-container">
+      <div class="tab-buttons">
+        <button class="tab-btn active" onclick="showTab('trends')">Medical Trends</button>
+        <button class="tab-btn" onclick="showTab('research')">Research Documentaries</button>
+        <button class="tab-btn" onclick="showTab('news')">Latest News</button>
+      </div>
+
+      <!-- Trends Tab -->
+      <div id="trends" class="tab-content active">
+        <h2 class="center" style="color:#264c55;margin-bottom:40px; font-family:'Roboto Slab', serif;">Medical Trends & Insights</h2>
+        
+        <div class="grid cols-2">
+          <div class="trend-card">
+            <div class="title">Rising Prevalence of Lifestyle Disorders</div>
+            <div class="meta">Updated: January 2025</div>
+            <div class="content">Recent studies show a 23% increase in diabetes and hypertension cases globally. Integration of ICD-11 with NAMASTE helps track both modern & Ayurvedic perspectives on lifestyle management.</div>
+            <div class="stats">📊 23% increase | 🌍 Global data | 📈 Trending upward</div>
+          </div>
+
+          <div class="trend-card">
+            <div class="title">Ayurveda in Global Research</div>
+            <div class="meta">Updated: January 2025</div>
+            <div class="content">More than 50 international journals published Ayurveda-linked research in 2024–25, signaling growing adoption of holistic care globally. Major institutions are now incorporating traditional medicine.</div>
+            <div class="stats">📚 50+ journals | 🌐 International | 🔬 Research focus</div>
+          </div>
+
+          <div class="trend-card">
+            <div class="title">AI in Clinical Decision Making</div>
+            <div class="meta">Updated: January 2025</div>
+            <div class="content">AI-powered code mapping tools reduce diagnosis errors by 35% and save up to 20% time in patient record management, making healthcare more efficient and accurate.</div>
+            <div class="stats">🤖 35% error reduction | ⏱️ 20% time saved | 🎯 AI-powered</div>
+          </div>
+
+          <div class="trend-card">
+            <div class="title">Mental Health Integration</div>
+            <div class="meta">Updated: January 2025</div>
+            <div class="content">Growing recognition of mental health in both modern and traditional medicine. NAMASTE codes for mental wellness are being increasingly mapped to ICD-11 psychiatric classifications.</div>
+            <div class="stats">🧠 Mental health focus | 🔗 Code integration | 📋 NAMASTE-ICD mapping</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Research Documentaries Tab -->
+      <div id="research" class="tab-content">
+        <h2 class="center" style="color:#264c55;margin-bottom:40px; font-family:'Roboto Slab', serif;">Research Documentaries</h2>
+        <p class="center" style="color:#3e7887; margin-bottom:40px; font-size:18px;">Expert insights and case studies from leading medical professionals</p>
+        
+        <div class="research-grid">
+          <div class="research-item">
+            <div class="video-placeholder">🎥 Video Documentary</div>
+            <h3>Integrating Ayurveda with Modern Cardiology</h3>
+            <div class="doctor">Dr. Priya Sharma, MD Cardiology</div>
+            <div class="description">A comprehensive study on how traditional Ayurvedic approaches to heart health can complement modern cardiology treatments, with detailed case studies and patient outcomes.</div>
+            <div class="tags">
+              <span class="tag">Cardiology</span>
+              <span class="tag">Ayurveda</span>
+              <span class="tag">Case Study</span>
+            </div>
+          </div>
+
+          <div class="research-item">
+            <div class="video-placeholder">🎥 Video Documentary</div>
+            <h3>NAMASTE-ICD Mapping in Diabetes Management</h3>
+            <div class="doctor">Dr. Rajesh Kumar, Ayurvedic Physician</div>
+            <div class="description">Exploring the practical application of NAMASTE codes in diabetes care, showing how traditional classification systems enhance modern treatment protocols.</div>
+            <div class="tags">
+              <span class="tag">Diabetes</span>
+              <span class="tag">NAMASTE</span>
+              <span class="tag">ICD-11</span>
+            </div>
+          </div>
+
+          <div class="research-item">
+            <div class="video-placeholder">🎥 Video Documentary</div>
+            <h3>Panchakarma Therapy in Chronic Pain Management</h3>
+            <div class="doctor">Dr. Anjali Mehta, Pain Specialist</div>
+            <div class="description">Documentary showcasing successful integration of Panchakarma therapies with modern pain management techniques, featuring patient testimonials and clinical data.</div>
+            <div class="tags">
+              <span class="tag">Panchakarma</span>
+              <span class="tag">Pain Management</span>
+              <span class="tag">Therapy</span>
+            </div>
+          </div>
+
+          <div class="research-item">
+            <div class="video-placeholder">🎥 Video Documentary</div>
+            <h3>Mental Health: Traditional vs Modern Approaches</h3>
+            <div class="doctor">Dr. Vikram Singh, Psychiatrist</div>
+            <div class="description">A deep dive into how traditional Ayurvedic mental health practices align with modern psychiatric treatments, including meditation and mindfulness techniques.</div>
+            <div class="tags">
+              <span class="tag">Mental Health</span>
+              <span class="tag">Psychiatry</span>
+              <span class="tag">Mindfulness</span>
+            </div>
+          </div>
+
+          <div class="research-item">
+            <div class="video-placeholder">🎥 Video Documentary</div>
+            <h3>Pediatric Care: Holistic Approach</h3>
+            <div class="doctor">Dr. Sunita Patel, Pediatrician</div>
+            <div class="description">Exploring how traditional child care practices from Ayurveda can be safely integrated with modern pediatric medicine for better health outcomes.</div>
+            <div class="tags">
+              <span class="tag">Pediatrics</span>
+              <span class="tag">Child Care</span>
+              <span class="tag">Holistic</span>
+            </div>
+          </div>
+
+          <div class="research-item">
+            <div class="video-placeholder">🎥 Video Documentary</div>
+            <h3>Geriatric Medicine: Aging Gracefully</h3>
+            <div class="doctor">Dr. Mohan Das, Geriatric Specialist</div>
+            <div class="description">Comprehensive study on aging, combining traditional longevity practices with modern geriatric care, focusing on quality of life and preventive medicine.</div>
+            <div class="tags">
+              <span class="tag">Geriatrics</span>
+              <span class="tag">Aging</span>
+              <span class="tag">Prevention</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- News Tab -->
+      <div id="news" class="tab-content">
+        <h2 class="center" style="color:#264c55;margin-bottom:40px; font-family:'Roboto Slab', serif;">Latest Medical News</h2>
+        
+        <div class="news-grid">
+          <div class="news-item">
+            <h3>WHO Endorses Traditional Medicine Integration</h3>
+            <div class="date">January 15, 2025</div>
+            <p>The World Health Organization has officially endorsed the integration of traditional medicine systems with modern healthcare, emphasizing the importance of standardized coding systems like NAMASTE and ICD-11.</p>
+          </div>
+
+          <div class="news-item">
+            <h3>New Research: Ayurveda Reduces Antibiotic Resistance</h3>
+            <div class="date">January 12, 2025</div>
+            <p>A groundbreaking study published in Nature Medicine shows that Ayurvedic treatments can reduce antibiotic resistance by 40% when used as complementary therapy in infectious disease management.</p>
+          </div>
+
+          <div class="news-item">
+            <h3>ICD-11 Updates Include Traditional Medicine Codes</h3>
+            <div class="date">January 10, 2025</div>
+            <p>The latest ICD-11 update includes expanded traditional medicine classifications, making it easier for healthcare providers to document and track treatments from various medical systems.</p>
+          </div>
+
+          <div class="news-item">
+            <h3>Digital Health Platform Launches NAMASTE Integration</h3>
+            <div class="date">January 8, 2025</div>
+            <p>Leading digital health platforms are now integrating NAMASTE coding systems, enabling seamless documentation of traditional medicine treatments alongside modern medical records.</p>
+          </div>
+
+          <div class="news-item">
+            <h3>AI-Powered Diagnosis Shows 95% Accuracy</h3>
+            <div class="date">January 5, 2025</div>
+            <p>New AI systems trained on both modern and traditional medicine databases are achieving 95% accuracy in diagnostic suggestions, revolutionizing clinical decision support.</p>
+          </div>
+
+          <div class="news-item">
+            <h3>Global Healthcare Summit Focuses on Integration</h3>
+            <div class="date">January 3, 2025</div>
+            <p>The International Healthcare Integration Summit brought together experts from modern and traditional medicine to discuss standardized approaches to patient care and medical coding.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 AYUSHLINK ICD. All rights reserved.
+  </footer>
+
+  <script>
+    function showTab(tabName) {
+      // Hide all tab contents
+      const contents = document.querySelectorAll('.tab-content');
+      contents.forEach(content => content.classList.remove('active'));
+      
+      // Remove active class from all buttons
+      const buttons = document.querySelectorAll('.tab-btn');
+      buttons.forEach(button => button.classList.remove('active'));
+      
+      // Show selected tab content
+      document.getElementById(tabName).classList.add('active');
+      
+      // Add active class to clicked button
+      event.target.classList.add('active');
+    }
+  </script>
+
+</body>
+</html>

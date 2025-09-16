@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AyushLink Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo">
+      <img src="assets/logo.png" alt="logo" style="width:40px;height:40px;border-radius:50%;object-fit:cover;"><br>
+      AYUSHLINK
+    </div>
+    <div class="nav">
+      <a href="doc_dashboard.html" class="active"><i>🏠</i> Dashboard</a>
+      <a href="api_tools.html"><i>🛠</i> API Tools</a>
+      <a href="publish.html"><i>✍️</i> Publish</a>
+      <a href="research_trends.html"><i>📈📊</i>Research and Trends</a>
+      <a href="reports.html"><i>🩺</i> Reports & Analytics</a>
+      <a href="patient_history.html"><i>📂</i> Patient History</a>
+      <a href="settings.html"><i>⚙️</i> Settings</a>
+      <a href="signin.html"><i>↩️</i> Logout</a>
+    </div>
+    <div class="footer">2025 © All Rights Reserved.</div>
+  </div>
+
+  <div class="main">
+    <div class="profile">
+      <img src="https://via.placeholder.com/40" alt="profile"> Dr. Lucky
+    </div>
+    <div class="welcome">Welcome, back!</div>
+    <form class="search-box" onsubmit="return handleSearch(event)">
+      <select id="searchMode" class="search-select" onchange="updatePrefix()">
+        <option value="name">Name</option>
+        <option value="namaste">NAMASTE</option>
+        <option value="icd">ICD 11</option>
+      </select>
+      <span id="searchPrefix" class="search-prefix">NAME</span>
+      <input id="searchInput" type="text" placeholder="Type to search">
+      <i>🔍</i>
+    </form>
+
+    <div id="results" class="results" style="display:none"></div>
+
+    <!-- Two-column layout: left content, right AI Symptom Analyzer -->
+    <div style="display:grid; grid-template-columns: 1fr 360px; gap:20px; align-items:start; width:100%; max-width:980px; margin-top:20px;">
+      <div>
+        <div class="section" style="width:100%;">
+          <div class="list">
+ 
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="flex-direction:column; align-items:stretch; gap:12px;">
+          <div class="title" style="text-align:left;">🤖 AI Symptom Analyzer</div>
+          <div class="muted" style="text-align:left;">Type patient symptoms and click Analyze to get suggested codes and differentials.</div>
+          <textarea id="symptomsInput" placeholder="e.g., Persistent cough, night sweats, weight loss, low-grade fever" style="width:100%; min-height:160px; border-radius:12px; border:1px solid #d6e6ea; padding:12px; font-size:14px; outline:none;"></textarea>
+          <button class="explore-btn" style="align-self:flex-end;" onclick="return analyzeSymptoms()">Analyze</button>
+          <div id="analyzeOutput" class="list" style="display:none; text-align:left;"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const sampleData = [
+      { name: 'Hypertension (High blood pressure)', namaste: 'NAM-A-001', icd: 'ICD11-052' },
+      { name: 'HIV/AIDS', namaste: 'NAM-A-005', icd: 'ICD11-031' },
+      { name: 'Hepatitis (Viral Hepatitis)', namaste: 'NAM-A-021', icd: 'ICD11-042' }
+    ];
+
+    function renderResults(items) {
+      const container = document.getElementById('results');
+      container.innerHTML = items.map((d) => `
+        <div class="card">
+          <div class="meta">
+            <div class="title">${d.name}</div>
+            <div><strong>NAMASTE ID</strong>: ${d.namaste} &nbsp;&nbsp; <strong>ICD_11 ID</strong>: ${d.icd}</div>
+          </div>
+          <button class="explore-btn" onclick="goToApi('${encodeURIComponent(d.name)}','${d.namaste}','${d.icd}')">🔎 Explore</button>
+        </div>`).join('');
+      container.style.display = items.length ? 'flex' : 'none';
+    }
+
+    function handleSearch(e) {
+      e.preventDefault();
+      const q = document.getElementById('searchInput').value.trim().toLowerCase();
+      const mode = document.getElementById('searchMode').value;
+      if (!q) { renderResults([]); return false; }
+      let hits = [];
+      if (mode === 'name') {
+        hits = sampleData.filter(d => d.name.toLowerCase().includes(q));
+      } else if (mode === 'icd') {
+        hits = sampleData.filter(d => d.icd.toLowerCase().includes(q));
+      } else {
+        hits = sampleData.filter(d => d.namaste.toLowerCase().includes(q));
+      }
+      renderResults(hits);
+      return false;
+    }
+
+    function updatePrefix(){
+      const mode = document.getElementById('searchMode').value;
+      const prefix = document.getElementById('searchPrefix');
+      if (mode === 'namaste') prefix.textContent = 'NAM';
+      else if (mode === 'icd') prefix.textContent = 'ICD 11';
+      else prefix.textContent = 'NAME';
+    }
+
+    updatePrefix();
+
+    function goToApi(name, namaste, icd) {
+      const url = `api_tools.html?name=${name}&namaste=${encodeURIComponent(namaste)}&icd=${encodeURIComponent(icd)}`;
+      window.location.href = url;
+    }
+
+    function analyzeSymptoms(){
+      const input = document.getElementById('symptomsInput')?.value.trim() || '';
+      const out = document.getElementById('analyzeOutput');
+      if(!out) return false;
+      if(!input){
+        alert('Please enter patient symptoms to analyze.');
+        return false;
+      }
+      const suggestions = [];
+      const text = input.toLowerCase();
+      if(text.includes('cough') && text.includes('fever')){
+        suggestions.push({ name:'Tuberculosis (suspected)', namaste:'NAM-R-218', icd:'ICD11-1B12' });
+      }
+      if(text.includes('chest pain')){
+        suggestions.push({ name:'Angina pectoris', namaste:'NAM-C-112', icd:'ICD11-BA40' });
+      }
+      if(text.includes('thirst') && text.includes('urination')){
+        suggestions.push({ name:'Diabetes mellitus', namaste:'NAM-E-010', icd:'ICD11-5A11' });
+      }
+      if(!suggestions.length){
+        suggestions.push({ name:'General viral syndrome', namaste:'NAM-G-000', icd:'ICD11-1D3Z' });
+      }
+      out.innerHTML = suggestions.map(s => `
+        <div class="list-item">
+          <div><strong>${s.name}</strong></div>
+          <div style=\"color:#446c77; font-size:13px;\">NAMASTE: ${s.namaste} &nbsp; | &nbsp; ICD-11: ${s.icd}</div>
+        </div>
+      `).join('');
+      out.style.display = 'flex';
+      return false;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+/* auth.css - shared for signup & signin, matches AYUSHLINK ICD theme */
+* { margin:0; padding:0; box-sizing:border-box; font-family: 'Poppins', sans-serif; }
+body { background:#e0f0f3; min-height:100vh; }
+
+/* Topbar (shared with index) */
+.topbar { display:flex; justify-content:space-between; align-items:center; padding:16px 40px; background:#d5e3e8; position:sticky; top:0; z-index:100; box-shadow:0 4px 12px rgba(0,0,0,0.08); }
+.brand { display:flex; align-items:center; gap:12px; font-weight:700; font-size:22px; font-family:'Roboto Slab', serif; color:#264c55; }
+.brand img { width:46px; height:46px; border-radius:50%; }
+.top-links { display:flex; gap:16px; align-items:center; }
+.link-btn { color:#264c55; text-decoration:none; font-weight:600; padding:8px 12px; border-radius:6px; transition:0.2s; }
+.link-btn:hover { background:#eaf3f6; }
+.cta-btn { padding:10px 18px; border-radius:10px; text-decoration:none; color:#fff; background:#3e7887; transition:0.3s; font-weight:700; font-size:14px; }
+.cta-btn:hover { opacity:0.9; }
+
+/* Page content spacing below topbar */
+.auth-page { display:flex; align-items:center; justify-content:center; padding:48px 20px; }
+
+/* container */
+.auth-container {
+  display:flex;
+  width:900px;
+  max-width:95%;
+  background:#fff;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 8px 24px rgba(0,0,0,0.08);
+  margin:0 auto;
+}
+
+/* left panel (branding) */
+.auth-left {
+  flex:1;
+  background:#d5e3e8;
+  padding:40px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:#264c55; /* dark blue */
+}
+.auth-left h1 { font-size:28px; margin-bottom:12px; }
+.auth-left p { max-width:320px; color:#264c55; margin-bottom:18px; }
+.auth-left img { max-width:85%; border-radius:10px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+
+/* right panel (form) */
+.auth-right {
+  flex:1.1;
+  padding:40px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.auth-right h2 { color:#264c55; margin-bottom:8px; font-size:22px; }
+.auth-right .subtitle { color:#3e7887; margin-bottom:18px; }
+
+/* form groups */
+.auth-form { display:flex; flex-direction:column; gap:12px; }
+.input-group { display:flex; flex-direction:column; text-align:left; }
+.input-group label { margin-bottom:6px; font-weight:600; color:#264c55; font-size:14px; }
+.input-group input {
+  padding:12px 14px; border-radius:8px; border:1px solid #d9e6ea; font-size:15px;
+}
+.input-group input:focus { outline:none; border-color:#3e7887; box-shadow:0 0 0 3px rgba(62,120,135,0.06); }
+
+/* primary button */
+.btn-primary {
+  margin-top:6px;
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  background:#264c55;  /* dark blue primary */
+  color:#fff;
+  font-weight:700;
+  font-size:15px;
+  cursor:pointer;
+  box-shadow:0 8px 20px rgba(38,76,85,0.06);
+}
+.btn-primary:hover { background:#3e7887; }
+
+/* divider */
+.divider { display:flex; align-items:center; margin:20px 0; color:#3e7887; font-size:14px; }
+.divider::before, .divider::after { content:""; flex:1; height:1px; background:#dce7ea; }
+.divider span { padding:0 10px; background:#fff; }
+
+/* social login group - stacked full width buttons with icons */
+.social-login { display:flex; flex-direction:column; gap:12px; margin-top:6px; }
+.btn-social {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  padding:12px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:600;
+  font-size:15px;
+  width:100%;
+  border:1px solid #d9e6ea;
+  background:#fff;
+  color:#264c55;
+  box-shadow:0 6px 18px rgba(0,0,0,0.03);
+}
+.btn-social img { width:20px; height:20px; display:block; }
+
+/* Doctor ID button currently uses same visual weight but can be changed to solid if needed */
+.btn-doctor-id { background:#fff; color:#264c55; border:1px solid #d9e6ea; }
+.btn-doctor-id:hover { background:#f6fbfb; }
+
+/* small redirect */
+.redirect { margin-top:18px; text-align:center; color:#3e7887; font-size:14px; }
+.redirect a { color:#264c55; text-decoration:none; font-weight:700; }
+.redirect a:hover { text-decoration:underline; }
+
+/* responsive */
+@media (max-width:780px) {
+  .auth-container { flex-direction:column; width:92%; }
+  .auth-left { display:none; }
+}
+/* Keep the same auth.css file from previous answer */
+/* Just add a small style for step buttons and hidden steps */
+
+.form-step { display: none; }
+.form-step.active { display: block; }
+
+.step-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.btn-secondary {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #d9e6ea;
+  background: #fff;
+  color: #264c55;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn-secondary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.btn-secondary:hover:enabled {
+  background: #f6fbfb;
+}
